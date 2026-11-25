@@ -1,0 +1,389 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Create and preview a draft Rockwell Automation PLC standard operating procedure.">
+    <title>PLC SOP Generator</title>
+    <link rel="stylesheet" href="styles.css?v=word-export-1">
+    <script src="word-export.js" defer></script>
+    <script src="app.js?v=word-export-1" defer></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="header-content">
+        <img
+          class="site-logo"
+          src="assets/severn-trent-logo.png"
+          alt="Severn Trent Water"
+          width="164"
+          height="66"
+        >
+        <div class="site-heading">
+          <p class="eyebrow">Engineering document workspace</p>
+          <h1>PLC SOP Generator</h1>
+          <p>Create a draft procedure using the company SOP structure. Review and approve it before use.</p>
+        </div>
+      </div>
+      <div class="site-brand-rule" aria-hidden="true"></div>
+    </header>
+
+    <main class="page-content">
+      <section class="notice" aria-labelledby="reference-notice-title">
+        <div>
+          <h2 id="reference-notice-title">Reference PDFs reviewed; in-app checks are unavailable</h2>
+          <p>
+            Six Rockwell PDF references and the NIST SP 800-82r3 OT security guide were supplied for this prototype,
+            but this browser app does not load or compare their contents at runtime. Review the findings and source documents below;
+            verify technical details against the approved documents before use.
+          </p>
+        </div>
+        <span class="notice-badge">Manual review required</span>
+      </section>
+
+      <section class="source-review" aria-labelledby="source-review-title">
+        <div class="source-review-heading">
+          <div>
+            <p class="eyebrow">Source-based findings</p>
+            <h2 id="source-review-title">Reference document review</h2>
+          </div>
+          <span class="source-review-badge">Reviewed manually</span>
+        </div>
+        <ul class="source-review-list">
+          <li>
+            <strong>1756-UM001Q-EN-P, ControlLogix 5570 and 5560 Controllers User Manual</strong>
+            (December 2024): Chapter 3, pages 58–62, covers setting the communication path, going online,
+            and uploading from the controller. Page 62 directs the engineer to verify the project in the
+            Connected to Upload dialog box before selecting Upload. The manual's stated controller scope is
+            5570/5560; it does not validate a procedure for all Ethernet-connected PLC families.
+          </li>
+          <li>
+            <strong>1756-RM014D-EN-P, Logix 5000 Controllers Import/Export Reference Manual</strong>
+            (September 2025): this is the supplied Import/Export manual, not the Design Considerations manual.
+          </li>
+          <li>
+            <strong>1756-RM094-EN-P, Logix 5000 Controllers Design Considerations Reference Manual:</strong>
+            supplied and applicable to Logix 5000 design considerations.
+          </li>
+          <li>
+            <strong>1756-PM001, Logix 5000 Controllers Common Procedures Programming Manual:</strong>
+            the supplied PDF is a one-page manual list. It identifies Import/Export as publication 1756-PM019;
+            it is not the Import/Export manual itself.
+          </li>
+          <li>
+            <strong>ENET-UM001, EtherNet/IP Network Configuration:</strong>
+            the supplied cover states this manual has been replaced by ENET-UM006.
+          </li>
+          <li>
+            <strong>ENET-UM006C-EN-P, EtherNet/IP Network Devices User Manual</strong>
+            (September 2025): supplied as the replacement for ENET-UM001 and covers EtherNet/IP network devices,
+            workstation configuration, IP addressing, and device configuration.
+          </li>
+          <li>
+            <strong>NIST SP 800-82 Revision 3, Guide to Operational Technology (OT) Security:</strong>
+            supplied for OT cyber-security guidance. It supports security principles and safeguards, but is not a
+            Rockwell controller operation manual and does not replace model-specific procedures.
+          </li>
+          <li>
+            <strong>Studio 5000 Logix Designer Online Help:</strong>
+            a web-based Rockwell resource, not a downloadable document placed in this workspace.
+            It can supplement the PDF sources, but it must be checked against the relevant software version.
+          </li>
+        </ul>
+        <p class="source-review-limit">
+          <strong>Coverage conclusion:</strong> 1756-RM094 covers Logix 5000 design considerations across
+          the applicable ControlLogix and CompactLogix families, while 1756-UM001 provides the controller-specific
+          procedure for ControlLogix 5570/5560 going online and uploading. ENET-UM006 covers EtherNet/IP network
+          devices and addressing. NIST SP 800-82r3 provides OT cyber-security guidance. The supplied Studio 5000 Online Help website is retained as a version-specific
+          software reference. No additional PDF source is currently identified as missing. No automatic comparison
+          or technical approval is performed by this app.
+        </p>
+      </section>
+
+      <div class="workspace">
+        <section class="form-panel" aria-labelledby="form-title">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">Draft details</p>
+              <h2 id="form-title">Enter SOP information</h2>
+            </div>
+            <p class="required-note"><span aria-hidden="true">*</span> Required</p>
+          </div>
+
+          <form id="sop-form" novalidate>
+            <button class="secondary-button" id="load-example-button" type="button">
+              Load ControlLogix 5570/5560 Ethernet example
+            </button>
+            <p class="help-text" id="example-help">
+              Loads an illustrative draft and replaces the current form values. Review and adapt it for the actual
+              controller, software version, site controls, and approved work instructions before use.
+            </p>
+
+            <fieldset>
+              <legend>Document information</legend>
+              <label for="sop-title">SOP title <span aria-hidden="true">*</span></label>
+              <input id="sop-title" name="title" type="text" autocomplete="off" required>
+              <p class="field-error" id="title-error"></p>
+
+              <div class="field-grid">
+                <div>
+                  <label for="author">Author <span aria-hidden="true">*</span></label>
+                  <input id="author" name="author" type="text" autocomplete="name" required>
+                  <p class="field-error" id="author-error"></p>
+                </div>
+                <div>
+                  <label for="revision">Revision number <span aria-hidden="true">*</span></label>
+                  <input id="revision" name="revision" type="text" autocomplete="off" required>
+                  <p class="field-error" id="revision-error"></p>
+                </div>
+              </div>
+
+              <label for="document-date">Date <span aria-hidden="true">*</span></label>
+              <input id="document-date" name="date" type="date" required>
+              <p class="field-error" id="date-error"></p>
+            </fieldset>
+
+            <fieldset>
+              <legend>Procedure content</legend>
+              <label for="purpose">Purpose</label>
+              <textarea id="purpose" name="purpose" rows="3"></textarea>
+
+              <label for="audience">Who</label>
+              <textarea id="audience" name="audience" rows="2"></textarea>
+
+              <label for="must-have">Must Have (H&amp;S, Quality, Quantity, Environment, Training, Resources)</label>
+              <textarea id="must-have" name="mustHave" rows="3"></textarea>
+              <p class="help-text">If none are required, enter “N/A”.</p>
+
+              <label for="summary">Summary Must Do’s</label>
+              <textarea id="summary" name="summary" rows="3"></textarea>
+              <p class="help-text">If none are required, enter “N/A”.</p>
+
+              <label for="procedure">Procedure / engineering notes</label>
+              <textarea id="procedure" name="procedure" rows="8" aria-describedby="procedure-help"></textarea>
+              <p class="help-text" id="procedure-help">
+                Enter engineering notes. They are not automatically rewritten; loading an example explicitly replaces current form values.
+              </p>
+
+              <section class="ai-assistance" aria-labelledby="ai-assistance-title">
+                <div class="ai-assistance-heading">
+                  <h3 id="ai-assistance-title">AI-assisted drafting</h3>
+                  <span class="ai-status">Not configured</span>
+                </div>
+                <p>
+                  Azure AI is not connected. Suggestions, summaries, and wording improvements are unavailable
+                  in this prototype. The source PDFs were reviewed for this project but are not loaded by the app.
+                </p>
+                <ul>
+                  <li>Organise supplied engineering notes into suggested steps.</li>
+                  <li>Summarise selected Rockwell documents and flag source-backed gaps when approved documents are configured.</li>
+                  <li>Suggest clearer, third-person technical wording.</li>
+                </ul>
+                <p class="ai-safety-note">
+                  Suggestions must remain separate from your original notes and require engineer verification.
+                  The system must not invent technical details, procedures, LOTO requirements, or validation results.
+                </p>
+                <button class="secondary-button" type="button" disabled aria-describedby="ai-unavailable">
+                  Generate AI suggestions
+                </button>
+                <p class="help-text" id="ai-unavailable">Unavailable until an approved Azure AI service is configured.</p>
+                <div class="suggestion-placeholder" aria-live="polite">
+                  AI suggestions will appear separately from the original notes.
+                </div>
+              </section>
+            </fieldset>
+
+            <fieldset>
+              <legend>Document control &amp; governance</legend>
+              <div class="field-grid">
+                <div>
+                  <label for="owner-name">Document owner name</label>
+                  <input id="owner-name" name="ownerName" type="text" autocomplete="off">
+                </div>
+                <div>
+                  <label for="owner-role">Document owner role</label>
+                  <input id="owner-role" name="ownerRole" type="text" autocomplete="off">
+                </div>
+              </div>
+              <div class="field-grid">
+                <div>
+                  <label for="next-review">Date of next review</label>
+                  <input id="next-review" name="nextReview" type="date">
+                </div>
+                <div>
+                  <label for="waterpedia-reference">Waterpedia Reference</label>
+                  <input id="waterpedia-reference" name="waterpediaReference" type="text" autocomplete="off">
+                </div>
+              </div>
+              <label for="reference">Reference document(s) used for review</label>
+              <textarea id="reference" name="reference" rows="10" aria-describedby="reference-help">1756-UM001Q-EN-P - ControlLogix 5570 and 5560 Controllers User Manual, December 2024 (Chapter 3, pages 58-62)
+1756-RM014D-EN-P - Logix 5000 Controllers Import/Export Reference Manual, September 2025
+1756-RM094-EN-P - Logix 5000 Controllers Design Considerations Reference Manual, September 2025
+1756-PM001 - Logix 5000 Controllers Common Procedures Programming Manual (supplied one-page list; identifies Import/Export as 1756-PM019)
+ENET-UM001 - EtherNet/IP Network Configuration (supplied cover says replaced by ENET-UM006)
+ENET-UM006C-EN-P - EtherNet/IP Network Devices User Manual, September 2025 (supplied replacement source)
+NIST SP 800-82 Revision 3 - Guide to Operational Technology (OT) Security (cyber-security guidance)
+https://www.rockwellautomation.com/en-us/docs/studio-5000-logix-designer/37-00/contents-ditamap.html - Studio 5000 Logix Designer Online Help (web-based; software version 37.00; not downloaded)</textarea>
+              <p class="help-text" id="reference-help">
+                Source titles and review notes are included in the draft for reviewer context. The app does not
+                automatically search or compare these documents.
+              </p>
+              <div class="field-grid">
+                <div>
+                  <label for="review-date">Revision history: date reviewed</label>
+                  <input id="review-date" name="reviewDate" type="date">
+                </div>
+                <div>
+                  <label for="reviewed-by">Revision history: reviewed by</label>
+                  <input id="reviewed-by" name="reviewedBy" type="text" autocomplete="off">
+                </div>
+              </div>
+              <label for="change-summary">Revision history: summary of changes</label>
+              <textarea id="change-summary" name="changeSummary" rows="2"></textarea>
+            </fieldset>
+
+            <div class="form-actions">
+              <button class="primary-button" id="generate-button" type="submit">Generate SOP preview</button>
+              <p class="form-status" id="form-status" role="status" aria-live="polite">
+                Complete the required fields to generate a preview.
+              </p>
+            </div>
+          </form>
+        </section>
+
+        <section class="preview-panel" aria-labelledby="preview-panel-title">
+          <div class="panel-heading preview-toolbar">
+            <div>
+              <p class="eyebrow">Document preview</p>
+              <h2 id="preview-panel-title">Draft SOP</h2>
+            </div>
+            <div class="export-buttons">
+              <button class="secondary-button" id="export-word-button" type="button" disabled>Export Word (.docx)</button>
+              <button class="secondary-button" id="export-button" type="button" disabled>Export / Print PDF</button>
+            </div>
+          </div>
+
+          <div class="preview-placeholder" id="preview-placeholder">
+            <div class="placeholder-icon" aria-hidden="true">SOP</div>
+            <h3>Preview not generated</h3>
+            <p>Complete the required fields, then select “Generate SOP preview”.</p>
+          </div>
+
+          <article class="document" id="document-preview" aria-label="Generated SOP document preview" hidden>
+            <div class="document-header">
+              <img
+                class="document-logo"
+                src="assets/severn-trent-logo.png"
+                alt="Severn Trent Water"
+                width="164"
+                height="66"
+              >
+              <div class="document-header-text">
+                <p class="document-kicker">Standard Operating Procedure (SOP)</p>
+                <p class="document-print-title"><span data-output="title"></span></p>
+              </div>
+            </div>
+            <table class="template-table title-table">
+              <tbody>
+                <tr><th scope="row">Title</th><td data-output="title"></td></tr>
+                <tr><th scope="row">Connection method</th><td>Ethernet</td></tr>
+              </tbody>
+            </table>
+            <table class="template-table purpose-who-table">
+              <thead>
+                <tr><th scope="col">Purpose</th><th scope="col">Who</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td data-output="purpose"></td>
+                  <td data-output="audience"></td>
+                </tr>
+              </tbody>
+            </table>
+            <table class="template-table">
+              <tbody>
+                <tr><th scope="row">Must Have (H&amp;S, Quality, Quantity, Environment, Training, Resources)</th></tr>
+                <tr><td class="template-value" data-output="mustHave"></td></tr>
+              </tbody>
+            </table>
+            <p class="template-reminder">Remember – ‘Stop, Think, Take 20’</p>
+            <table class="template-table">
+              <tbody>
+                <tr><th scope="row">Summary Must Do’s</th></tr>
+                <tr><td class="template-value" data-output="summary"></td></tr>
+              </tbody>
+            </table>
+            <table class="template-table procedure-table">
+              <thead>
+                <tr><th scope="col">Procedure</th></tr>
+              </thead>
+              <tbody class="procedure-steps" data-output="procedure"></tbody>
+            </table>
+            <table class="template-table governance-table">
+              <thead>
+                <tr><th colspan="2" scope="colgroup">Document Control &amp; Governance:</th></tr>
+              </thead>
+              <tbody>
+                <tr><th scope="row">Document Owner Name</th><td data-output="ownerName"></td></tr>
+                <tr><th scope="row">Document Owner Role</th><td data-output="ownerRole"></td></tr>
+                <tr><th scope="row">Date of Next Review</th><td data-output="nextReview"></td></tr>
+                <tr><th scope="row">Version Number</th><td data-output="revision"></td></tr>
+                <tr><th scope="row">Date</th><td data-output="date"></td></tr>
+                <tr><th scope="row">Author</th><td data-output="author"></td></tr>
+                <tr><th scope="row">Waterpedia Reference</th><td data-output="waterpediaReference"></td></tr>
+                <tr><th scope="row">Reference Document(s)</th><td class="preserve-lines" data-output="reference"></td></tr>
+              </tbody>
+            </table>
+            <table class="template-table revision-table">
+              <thead>
+                <tr><th colspan="4" scope="colgroup">Revision History</th></tr>
+                <tr><th scope="col">Version</th><th scope="col">Date Reviewed</th><th scope="col">Summary of Changes</th><th scope="col">Reviewed by</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td data-output="revision"></td>
+                  <td data-output="reviewDate"></td>
+                  <td data-output="changeSummary"></td>
+                  <td data-output="reviewedBy"></td>
+                </tr>
+              </tbody>
+            </table>
+            <table class="template-table controlled-copy-table">
+              <tbody>
+                <tr>
+                  <td>
+                    The only valid version of this Standard Operating Procedure (SOP) is the electronic version held
+                    in Waterpedia. If printed, it is uncontrolled. Ensure the printed version matches the Revision
+                    History details in Waterpedia. If not, ‘DO NOT USE’ and contact your line manager for the new version.
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <p class="document-disclaimer">
+              DRAFT — Requires engineer review and company approval before use. Technical content and reference
+              compliance have not been independently verified by this application.
+            </p>
+            <footer class="document-footer" aria-label="Document footer">
+              <table class="footer-table">
+                <tbody>
+                  <tr>
+                    <td class="footer-title" data-output="title"></td>
+                    <td>Owner: <span data-output="ownerName"></span></td>
+                    <td class="footer-page">
+                      <span class="footer-page-preview">Page number via print settings</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Version No. <span data-output="revision"></span></td>
+                    <td>Next Review Date: <span data-output="nextReview"></span></td>
+                    <td>Published on: <span data-output="date"></span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </footer>
+          </article>
+        </section>
+      </div>
+    </main>
+  </body>
+</html>
